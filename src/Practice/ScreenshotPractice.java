@@ -16,7 +16,7 @@ public class ScreenshotPractice {
 
 
 		System.setProperty("webdriver.chrome.driver",
-				System.getProperty("user.dir") + "\\WebBrowsers\\chromedriver.exe");
+				System.getProperty("user.dir") + "\\WebDrivers\\chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.get("https://google.com");
