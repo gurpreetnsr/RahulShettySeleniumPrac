@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="20308" started-at="2020-06-23T23:44:57 IST" finished-at="2020-06-23T23:45:17 IST">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="20308" started-at="2020-06-23T23:44:57 IST" finished-at="2020-06-23T23:45:17 IST">
+      <class name="rediffMoneyTestcases.CreatePortFolioTest">
+        <test-method status="PASS" signature="createPortFolioTest()[pri:0, instance:rediffMoneyTestcases.CreatePortFolioTest@610694f1]" name="createPortFolioTest" duration-ms="20237" started-at="2020-06-23T23:44:57 IST" finished-at="2020-06-23T23:45:17 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createPortFolioTest -->
+      </class> <!-- rediffMoneyTestcases.CreatePortFolioTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

@@ -1,16 +1,17 @@
 package Practice;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.client.fluent.Request;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -27,31 +28,50 @@ public class ClickMultiLinkDemoUsingControlKeySendChord {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
 		System.out.println(driver.getTitle());
-		
+
 		WebElement footer = driver.findElement(By.cssSelector("div#gf-BIG table tbody tr td ul"));
 		System.out.println(footer.findElements(By.tagName("a")).size());
 		List<WebElement> links = footer.findElements(By.tagName("a"));
 		int linkSize = links.size();
-		int k=1;
-		String keysChord = Keys.chord(Keys.CONTROL,Keys.ENTER);
-	
-		while(k < linkSize)
-		{
-			links.get(k).sendKeys(keysChord);;
+		int k = 1;
+		String keysChord = Keys.chord(Keys.CONTROL, Keys.ENTER);
+
+		while (k < linkSize) {
+			if (checkLinkRespose(links.get(k).getAttribute("href"))) {
+
+				links.get(k).sendKeys(keysChord);
+			}
+
 			k++;
 		}
-		
-		Set<String> openedWindows = driver.getWindowHandles();
-		Iterator<String> it = openedWindows.iterator();
-		//String mainWindowHandle = it.next();
-		while(it.hasNext())
-		{
-			String windowHandle = it.next();
-			driver.switchTo().window(windowHandle);
-			System.out.println(driver.getTitle());
-			driver.close();
-		}
 
+//		Set<String> openedWindows = driver.getWindowHandles();
+//		Iterator<String> it = openedWindows.iterator();
+//		//String mainWindowHandle = it.next();
+//		while(it.hasNext())
+//		{
+//			String windowHandle = it.next();
+//			driver.switchTo().window(windowHandle);
+//			System.out.println(driver.getTitle());
+//			driver.close();
+//		}
+
+	}
+
+	public static boolean checkLinkRespose(String urlString) {
+		int respoonseCode = 0;
+
+		try {
+			respoonseCode = Request.Get(urlString).execute().returnResponse().getStatusLine().getStatusCode();
+			System.out.println("Response code of " + urlString + " is " + respoonseCode);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		if (respoonseCode == 200)
+			return true;
+		else
+			return false;
 
 	}
 

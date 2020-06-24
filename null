@@ -1,0 +1,3 @@
+1591022829977	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\rajdeep\\AppData\\Local\\Temp\\rust_mozprofileklQPd2"
+1591022832462	Marionette	INFO	Listening on port 54356
+1591022832591	Marionette	WARN	TLS certificate errors will be ignored for this session
