@@ -12,6 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
@@ -53,12 +54,18 @@ public class CreatePortFolioTest {
 		// driver.findElement(By.cssSelector("a#createPortfolio"));
 
 		// Thread.sleep(1000);
-		waitForPageToLoad();
+
 		clickAndWait("a#createPortfolio", "input[name='create']", 10);
 		// driver.findElement(By.cssSelector("a#createPortfolio")).click();
 		driver.findElement(By.cssSelector("input[name='create']")).clear();
-		driver.findElement(By.cssSelector("input[name='create']")).sendKeys("MyFirstPortfolio7");
+		driver.findElement(By.cssSelector("input[name='create']")).sendKeys("MyFirstPortfolio14");
 		driver.findElement(By.cssSelector("input#createPortfolioButton")).click();
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#portfolioid")));
+		// wait(1);
+		waitForPageToLoad();
+		Select portFoliosList = new Select(driver.findElement(By.cssSelector("#portfolioid")));
+		System.out.println(portFoliosList.getFirstSelectedOption().getText());
 	}
 
 	public void clickAndWait(String cssExp, String cssTarget, int maxTime) {
@@ -67,15 +74,10 @@ public class CreatePortFolioTest {
 			driver.findElement(By.cssSelector(cssExp)).click();
 			if (isElementPresent(cssTarget) && driver.findElement(By.cssSelector(cssTarget)).isDisplayed())
 				return;
-			else
-
-			{
-
+			else {
 				wait(1);
 			}
-
 		}
-
 		System.out.println("The Web Element having CSS Selectot " + cssTarget + " is not present.");
 	}
 
@@ -94,14 +96,24 @@ public class CreatePortFolioTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void waitForPageToLoad() {
-		JavascriptExecutor js =  (JavascriptExecutor) driver;
-		//String docState = "return document.readyState";
-		String docState = js.executeScript("return document.readyState").toString();
-		System.out.println(docState);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		int i =1;
+		while (true) {
+			i++;
+			long jQueryStatus = (long) js.executeScript("return jQuery.active");
+			System.out.println(jQueryStatus);
+			if (jQueryStatus == 0)
+				break;
+			else if(i==10)
+				break;
+			else
+				wait(1);
+		}
+		// String docState = "return document.readyState";
+		// String docState = js.executeScript("return document.readyState").toString();
+		// System.out.println(docState);
 	}
-			
-			
 
 }
