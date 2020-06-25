@@ -3,9 +3,11 @@ package rediffMoneyTestcases;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -23,7 +25,11 @@ public class LoginTest {
 		} else if (browser.equalsIgnoreCase("mozilla")) {
 			System.setProperty("webdriver.gecko.driver",
 					System.getProperty("user.dir") + "\\WebDrivers\\geckodriver.exe");
-			driver = new FirefoxDriver();
+			System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "null");
+			FirefoxOptions fo = new FirefoxOptions();
+			fo.setPageLoadStrategy(PageLoadStrategy.EAGER);
+			driver = new FirefoxDriver(fo);
+
 		} else
 			System.out.println(browser + " could not be found.");
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
