@@ -20,7 +20,7 @@ public class CreatePortFolioTest {
 
 	static WebDriver driver = null;
 
-	@Test
+	@Test(priority=1)
 	public void createPortFolioTest() throws InterruptedException {
 		String browser = "mozilla";
 
@@ -58,14 +58,25 @@ public class CreatePortFolioTest {
 		clickAndWait("a#createPortfolio", "input[name='create']", 10);
 		// driver.findElement(By.cssSelector("a#createPortfolio")).click();
 		driver.findElement(By.cssSelector("input[name='create']")).clear();
-		driver.findElement(By.cssSelector("input[name='create']")).sendKeys("MyFirstPortfolio14");
+		String portFolioToEnter = "MyFirstPortfolio23";     
+		driver.findElement(By.cssSelector("input[name='create']")).sendKeys(portFolioToEnter);
 		driver.findElement(By.cssSelector("input#createPortfolioButton")).click();
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#portfolioid")));
+		//WebDriverWait wait = new WebDriverWait(driver, 30);
+		//wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#portfolioid")));
 		// wait(1);
 		waitForPageToLoad();
-		Select portFoliosList = new Select(driver.findElement(By.cssSelector("#portfolioid")));
-		System.out.println(portFoliosList.getFirstSelectedOption().getText());
+		waitForItemInDropDown(portFolioToEnter);
+	}
+	
+	@Test(priority=2, dependsOnMethods= {"createPortFolioTest"})
+	public void deletePortFolioTest()
+	{
+		driver.findElement(By.cssSelector("a#deletePortfolio")).click();
+		//wait(1);
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.alertIsPresent());
+		driver.switchTo().alert().accept();
+		driver.switchTo().defaultContent();
 	}
 
 	public void clickAndWait(String cssExp, String cssTarget, int maxTime) {
@@ -114,6 +125,24 @@ public class CreatePortFolioTest {
 		// String docState = "return document.readyState";
 		// String docState = js.executeScript("return document.readyState").toString();
 		// System.out.println(docState);
+	}
+	
+	public void waitForItemInDropDown(String expected)
+	{
+		for(int i =1; i <=10; i++)
+		{
+			Select portFoliosList = new Select(driver.findElement(By.cssSelector("#portfolioid")));
+			System.out.println(portFoliosList.getFirstSelectedOption().getText());
+			if(portFoliosList.getFirstSelectedOption().getText().equalsIgnoreCase(expected))
+			{
+				return;
+			}
+			else
+			{
+				wait(1);
+			}
+		}
+		//System.out.println("Out of for loop");
 	}
 
 }
